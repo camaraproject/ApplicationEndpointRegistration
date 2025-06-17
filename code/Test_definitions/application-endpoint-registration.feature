@@ -1,4 +1,4 @@
-@Application_Endpoint_Registration
+  @Application_Endpoint_Registration
 Feature: CAMARA Application Endpoint Registration API, vwip - Operations for registering application endpoints
 
 # Input to be provided by the implementation to the tests
