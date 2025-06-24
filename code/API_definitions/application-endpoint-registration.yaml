@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Application Endpoints Registration
-  version: wip
+  version: 0.1.0-rc.1
   x-camara-commonalities: 0.6
   description: |
     The Application Endpoints Registration API provides a programmable
@@ -81,10 +81,10 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 externalDocs:
   description: Project documentation at Camara
-  url: https://github.com/camaraproject/EdgeCloud
+  url: https://github.com/camaraproject/ApplicationEndpointRegistration
 
 servers:
-  - url: "{apiRoot}/application-endpoint-registration/vwip"
+  - url: "{apiRoot}/application-endpoint-registration/v0rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
