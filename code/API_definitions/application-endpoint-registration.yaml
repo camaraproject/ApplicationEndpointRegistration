@@ -84,7 +84,7 @@ externalDocs:
   url: https://github.com/camaraproject/ApplicationEndpointRegistration
 
 servers:
-  - url: "{apiRoot}/application-endpoint-registration/v0rc1"
+  - url: "{apiRoot}/application-endpoint-registration/v0.1rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
