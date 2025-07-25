@@ -29,7 +29,7 @@ The API definition(s) are based on
 
 ## application-endpoint-registration v0.1.0-rc.1
 
-**application-endpoint-registration v0.1.0-rc1 is the initial release candidate version of this API, including initial documentation and implementation code.**
+**application-endpoint-registration v0.1.0-rc.1 is the initial release candidate version of this API, including initial documentation and implementation code.**
 
 - API definition **with inline documentation**:
   - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.1/code/API_definitions/application-endpoint-registration.yaml&nocors)
