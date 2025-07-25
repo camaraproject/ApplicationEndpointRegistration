@@ -21,7 +21,7 @@ The below sections record the changes for each API version in each release as fo
 
 
 This release contains the definition and documentation of
-* application-endpoint-registration v0.1.0-rc1, a release-candidate pre-release
+* application-endpoint-registration v0.1.0-rc.1, a release-candidate pre-release
 
 The API definition(s) are based on
 * Commonalities r3.2
