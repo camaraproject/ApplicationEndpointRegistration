@@ -99,8 +99,6 @@ info:
 
     (FAQs will be added in a later version of the documentation)
 
-  contact:
-    email: sp-edc@lists.camaraproject.org
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
