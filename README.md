@@ -29,6 +29,7 @@ Sandbox API Repository to describe, develop, document, and test the ApplicationE
 <!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
 <!--Pre-releases of this sub project are available in https://github.com/camaraproject/ApplicationEndpointRegistration/releases-->
 The latest public release is available here: https://github.com/camaraproject/ApplicationEndpointRegistration/releases/latest
+
 For changes see [CHANGELOG.md](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/main/CHANGELOG.md)
 
 ## Contributing
