@@ -35,3 +35,6 @@ The API definition(s) are based on
   - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.1/code/API_definitions/application-endpoint-registration.yaml&nocors)
   - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.1/code/API_definitions/application-endpoint-registration.yaml)
   - OpenAPI [YAML spec file](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.1/code/API_definitions/application-endpoint-registration.yaml)
+  
+### Added
+* Creation of the application-endpoint-registration API yaml file
