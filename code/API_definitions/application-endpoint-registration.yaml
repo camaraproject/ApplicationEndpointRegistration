@@ -12,7 +12,7 @@ info:
 
     # Introduction
 
-    The API registers the Edge Application Endpoints.
+    The API registers the Application Endpoints.
     This information can be used for various use cases like optimal endpoint
     discovery to help end users connect to the most optimal instance of the
     application which is distributed across various Edge Cloud Zones.
@@ -27,6 +27,19 @@ info:
 
     The Endpoint on which the application is accessible.
     It can be a FQDN, IPv4, or IPv6 address with a port number.
+
+    * **Application Profile**:
+
+    It represents the application's network and
+    compute characteristics. This helps distinguish between different
+    applications and their specific requirements.
+
+    * **Edge Cloud Zone**:
+
+    Availability Zone in an Edge Cloud. It is the lowest
+    level of abstraction exposed to an Application Provider who wants to
+    deploy an Application on Edge Cloud. Availability Zones exist within
+    a Region.
 
     # API functionality
 
@@ -338,6 +351,7 @@ components:
       type: string
       pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
       example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
+
     ApplicationEndpointInfo:
       description: Application instance represented
         by the application Endpoint definition
@@ -347,18 +361,19 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ApplicationEndpoint"
-        applicationServerProviderName:
+        applicationProviderName:
           type: string
-          description: Unique ID representing the Edge
-            Application Provider
+          description: Name of the Application Provider
+          example: "AppProvider"
         applicationDescription:
           type: string
-          description: Description of the application Endpoint
+          description: Description of the application.
+          example: "This is a V2X application."
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
       required:
         - applicationEndpoint
-        - applicationServerProviderName
+        - applicationProviderName
         - applicationProfileId
 
     ApplicationEndpoints:
@@ -380,23 +395,23 @@ components:
       required:
         - port
       anyOf:
-        - required: [fqdn]
+        - required: [domainName]
         - required: [ipv4Addresses]
         - required: [ipv6Addresses]
       properties:
-        fqdn:
-          $ref: "#/components/schemas/Fqdn"
+        domainName:
+          $ref: "#/components/schemas/DomainName"
         ipv4Addresses:
           description: Array of IPv4 addresses.
           type: array
           items:
-            $ref: "#/components/schemas/Ipv4Address"
+            $ref: "#/components/schemas/SingleIpv4Addr"
           minItems: 1
         ipv6Addresses:
           description: Array of IPv6 addresses.
           type: array
           items:
-            $ref: "#/components/schemas/Ipv6Address"
+            $ref: "#/components/schemas/SingleIpv6Addr"
           minItems: 1
         port:
           $ref: "#/components/schemas/Port"
@@ -405,6 +420,7 @@ components:
         applicationEndpointDescription:
           type: string
           description: Description of the application endpoint
+          example: "V2X app deployed at ZoneA"
 
     EdgeCloudZone:
       type: object
@@ -475,27 +491,34 @@ components:
       additionalProperties: false
 
     ApplicationProfileId:
-      description: A unique identifier for the application profile.
+      description: |
+        A unique identifier for the application profile. This represents
+        the application's network and compute characteristics.
       type: string
       format: uuid
       example: "123e4567-e89b-12d3-a456-426614174000"
 
-    Fqdn:
-      type: string
-      description: Fully Qualified Domain Name.
-
-    Ipv4Address:
+    DomainName:
       type: string
       description: |
-        A single IPv4 address specified in dotted-quad form like 1.2.3.4.
-      example: "198.51.100.1"
+        Application's Domain Name, which is a Fully Qualified Domain Name (FQDN).
+      pattern: ^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)+$
+      maxLength: 253
+      minLength: 4
+      example: "app.example.com"
 
-    Ipv6Address:
+    SingleIpv4Addr:
+      description: A single IPv4 address with no subnet mask
       type: string
+      format: ipv4
+      example: "84.125.93.10"
+
+    SingleIpv6Addr:
       description: |
-        A single IPv6 address, following IETF 5952 format like
-        2001:db8:85a3:8d3:1319:8a2e:370:7344.
-      example: "2001:db8:85a3::8a2e:370:7334"
+        Single IPv6 address with no subnet mask
+      type: string
+      format: ipv6
+      example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
 
     Port:
       description: TCP or UDP port number
