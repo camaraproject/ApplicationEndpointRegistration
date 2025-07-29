@@ -49,11 +49,11 @@ info:
     - GET getAllRegisteredApplicationEndpoints: Returns endpoint information for
       all registered Applications.
     - GET getApplicationEndpointsByID: Returns endpoint information for all
-        Applications registered to a specified applicationEndpointId.
+        Applications registered to a specified applicationEndpointListId.
     - PUT updateApplicationEndpoint: Update registered application endpoint
         information.
     - DELETE deregisterApplicationEndpoint: Deregister an application's
-                          application Endpoint from the edge cloud zone.
+                          Endpoints.
     ## Errors
 
     - If the API call contains a formatting or other any other syntatic error,
@@ -62,7 +62,7 @@ info:
     expired credentials, a `401 UNAUTHENTICATED` error is returned.
     - If the API call has a valid access token that does not have the
     required scope, then a `403 PERMISSION_DENIED` error is returned.
-    - If the API call has an `applicationEndpointsId` that does not identify
+    - If the API call has an `applicationEndpointListId` that does not identify
     any registered endpoint on the Edge Cloud, a `404 NOT_FOUND` error
     is returned.
 
@@ -134,7 +134,7 @@ tags:
       application.
 
 paths:
-  /application-endpoints:
+  /application-endpoint-list:
     post:
       security:
         - openId:
@@ -155,17 +155,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ApplicationEndpointInfo"
+              $ref: "#/components/schemas/ApplicationEndpointsInfo"
       responses:
         "200":
-          description: Returns an applicationEndpointsId
+          description: Returns an applicationEndpointListId
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpointsId"
+                $ref: "#/components/schemas/ApplicationEndpointListId"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -178,6 +178,7 @@ paths:
           $ref: "#/components/responses/Generic422"
         "429":
           $ref: "#/components/responses/Generic429"
+  /application-endpoint-lists:
     get:
       security:
         - openId:
@@ -187,7 +188,7 @@ paths:
       summary: Get all registered edge application endpoint information
       description: |
         Returns endpoint information for all
-        Application Endpoints registered.
+        registered Applications.
       operationId: getAllRegisteredApplicationEndpoints
       parameters:
         - $ref: "#/components/parameters/x-correlator"
@@ -202,7 +203,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ApplicationEndpoints"
+                  $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -216,15 +217,15 @@ paths:
         "429":
           $ref: "#/components/responses/Generic429"
 
-  "/application-endpoints/{applicationEndpointsId}":
+  "/application-endpoint-lists/{applicationEndpointListId}":
     parameters:
-      - name: applicationEndpointsId
+      - name: applicationEndpointListId
         in: path
         description: The unique identifier for the application endpoints
           that got created when registering the application endpoints.
         required: true
         schema:
-          $ref: "#/components/schemas/ApplicationEndpointsId"
+          $ref: "#/components/schemas/ApplicationEndpointListId"
       - $ref: "#/components/parameters/x-correlator"
     get:
       security:
@@ -234,20 +235,20 @@ paths:
         - Application Endpoint Registration
       summary: Get registered edge application endpoint information
       description: |
-        Returns endpoint information for all
-        Application Endpoints registered to a
-        specified applicationEndpointId.
+        Returns endpoint information of the application based on
+        applicationEndpointListId.
       operationId: getApplicationEndpointsById
       responses:
         "200":
-          description: Array of registered Application Endpoints
+          description: Application Endpoint information based on
+            given ApplicationEndpointListID
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpoints"
+                $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -273,12 +274,11 @@ paths:
       operationId: updateApplicationEndpoint
       requestBody:
         description: Application Endpoint information
+        required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/ApplicationEndpointInfo"
+              $ref: "#/components/schemas/ApplicationEndpointsInfo"
       responses:
         "204":
           description: Updates Application Endpoint Information
@@ -352,13 +352,15 @@ components:
       pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
       example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
 
-    ApplicationEndpointInfo:
-      description: Application instance represented
-        by the application Endpoint definition
+    ApplicationEndpointsInfo:
+      description: Endpoint information of the Application
+        deployed across different Edge Cloud Zones.
       type: object
       properties:
         applicationEndpoints:
           type: array
+          description: List of endpoints of the application deployed across
+            various Edge Cloud Zones
           items:
             $ref: "#/components/schemas/ApplicationEndpoint"
         applicationProviderName:
@@ -372,47 +374,57 @@ components:
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
       required:
-        - applicationEndpoint
+        - applicationEndpoints
         - applicationProviderName
         - applicationProfileId
+      example:
+        applicationEndpoints:
+          - domainName: "app.example.com"
+            port: 8080
+            applicationEndpointDescription: "V2X app deployed at ZoneA"
+            edgeCloudZone:
+              edgeCloudZoneId: "123e4567-e89b-12d3-a456-426614174000"
+              edgeCloudZoneName: "ZoneA"
+              edgeCloudProvider: "ProviderA"
+              edgeCloudRegion: "us-west-1"
+              edgeCloudZoneStatus: "active"
+        applicationProviderName: "AppProvider"
+        applicationDescription: "This is a V2X application."
+        applicationProfileId: "123e4567-e89b-12d3-a456-426614174000"
 
-    ApplicationEndpoints:
+    ApplicationEndpointList:
+      type: object
       description: |
         List of Application endpoints information
         deployed across various cloud zones.
+      required:
+        - applicationEndpointListId
+        - applicationEndpointsInfo
       properties:
-        applicationEndpointsId:
-          $ref: "#/components/schemas/ApplicationEndpointsId"
+        applicationEndpointListId:
+          $ref: "#/components/schemas/ApplicationEndpointListId"
         applicationEndpointsInfo:
-          $ref: "#/components/schemas/ApplicationEndpointInfo"
+          $ref: "#/components/schemas/ApplicationEndpointsInfo"
 
     ApplicationEndpoint:
       type: object
       description: |
         An application server IP address or FQDN with a port,
         exposed by an application instance deployed on the Edge Cloud
-        provider.
+        Zone.
       required:
         - port
       anyOf:
         - required: [domainName]
-        - required: [ipv4Addresses]
-        - required: [ipv6Addresses]
+        - required: [ipv4Address]
+        - required: [ipv6Address]
       properties:
         domainName:
           $ref: "#/components/schemas/DomainName"
-        ipv4Addresses:
-          description: Array of IPv4 addresses.
-          type: array
-          items:
-            $ref: "#/components/schemas/SingleIpv4Addr"
-          minItems: 1
-        ipv6Addresses:
-          description: Array of IPv6 addresses.
-          type: array
-          items:
-            $ref: "#/components/schemas/SingleIpv6Addr"
-          minItems: 1
+        ipv4Address:
+          $ref: "#/components/schemas/SingleIpv4Addr"
+        ipv6Address:
+          $ref: "#/components/schemas/SingleIpv6Addr"
         port:
           $ref: "#/components/schemas/Port"
         edgeCloudZone:
@@ -481,14 +493,17 @@ components:
       pattern: ^[A-Za-z0-9]([A-Za-z0-9-]{0,53}[A-Za-z0-9])?$
       example: "ZoneA"
 
-    ApplicationEndpointsId:
+    ApplicationEndpointListId:
       description: |
         A system-defined string identifier representing
-        one or more registered Application Endpoints.
+        one or more registered Application Endpoints. This ID is generated
+        by the system upon successful registration and is used to reference
+        the registered endpoints in subsequent operations.
       type: string
       format: uuid
       readOnly: true
       additionalProperties: false
+      example: "98765432-e89b-12d3-a456-426614174999"
 
     ApplicationProfileId:
       description: |
@@ -521,10 +536,13 @@ components:
       example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
 
     Port:
-      description: TCP or UDP port number
+      description: |
+        TCP or UDP port number for the application endpoint.
+        Valid range is 0-65535.
       type: integer
       minimum: 0
       maximum: 65535
+      example: 8080
 
     ErrorInfo:
       description: Common schema for errors
