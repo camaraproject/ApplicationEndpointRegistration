@@ -497,8 +497,8 @@ components:
       description: |
         A system-defined string identifier representing
         one or more registered Application Endpoints. This ID is generated
-        by the system upon successful registration and is used to reference
-        the registered endpoints in subsequent operations.
+        by the system upon successful registration of an application and is
+        used to reference the registered endpoints in subsequent operations.
       type: string
       format: uuid
       readOnly: true
