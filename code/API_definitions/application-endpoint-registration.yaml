@@ -134,7 +134,7 @@ tags:
       application.
 
 paths:
-  /application-endpoint-list:
+  /application-endpoint-lists:
     post:
       security:
         - openId:
@@ -178,7 +178,6 @@ paths:
           $ref: "#/components/responses/Generic422"
         "429":
           $ref: "#/components/responses/Generic429"
-  /application-endpoint-lists:
     get:
       security:
         - openId:
