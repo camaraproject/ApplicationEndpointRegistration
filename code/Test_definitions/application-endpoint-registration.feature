@@ -2,6 +2,7 @@
 Feature: CAMARA Application Endpoint Registration API, v0.1.0-rc.1 - Operations for registering application endpoints
 
 # Input to be provided by the implementation to the tests
+# * apiRoot: API root of the server URL
 # References to OAS spec schemas refer to schemas specified in application-endpoint-registration.yaml
 
   Background: Common Application Endpoint Registration setup
