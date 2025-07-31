@@ -5,7 +5,8 @@ Feature: CAMARA Application Endpoint Registration API, v0.1.0-rc.1 - Operations 
 # References to OAS spec schemas refer to schemas specified in application-endpoint-registration.yaml
 
   Background: Common Application Endpoint Registration setup
-    Given the resource "{apiroot}/application-endpoint-registration/v0.1rc1" as base-url
+    Given an environment at "apiRoot"
+    And the resource "/application-endpoint-registration/v0.1rc1"
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
      And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
