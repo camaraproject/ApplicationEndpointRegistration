@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Application Endpoints Registration
-  version: wip
+  version: 0.1.0-rc.1
   x-camara-commonalities: 0.6
   description: |
     The Application Endpoints Registration API provides a programmable
@@ -12,7 +12,7 @@ info:
 
     # Introduction
 
-    The API registers the Edge Application Endpoints.
+    The API registers the Application Endpoints.
     This information can be used for various use cases like optimal endpoint
     discovery to help end users connect to the most optimal instance of the
     application which is distributed across various Edge Cloud Zones.
@@ -28,6 +28,19 @@ info:
     The Endpoint on which the application is accessible.
     It can be a FQDN, IPv4, or IPv6 address with a port number.
 
+    * **Application Profile**:
+
+    It represents the application's network and
+    compute characteristics. This helps distinguish between different
+    applications and their specific requirements.
+
+    * **Edge Cloud Zone**:
+
+    Availability Zone in an Edge Cloud. It is the lowest
+    level of abstraction exposed to an Application Provider who wants to
+    deploy an Application on Edge Cloud. Availability Zones exist within
+    a Region.
+
     # API functionality
 
     The API provides the following operations:
@@ -36,32 +49,56 @@ info:
     - GET getAllRegisteredApplicationEndpoints: Returns endpoint information for
       all registered Applications.
     - GET getApplicationEndpointsByID: Returns endpoint information for all
-        Applications registered to a specified applicationEndpointId.
+        Applications registered to a specified applicationEndpointListId.
     - PUT updateApplicationEndpoint: Update registered application endpoint
         information.
     - DELETE deregisterApplicationEndpoint: Deregister an application's
-                          application Endpoint from the edge cloud zone.
+                          Endpoints.
+    ## Errors
+
+    - If the API call contains a formatting or other any other syntatic error,
+    a `400 INVALID_ARGUMENT` error is returned.
+    - If the API call cannot be authenticated due to missing, invalid, or
+    expired credentials, a `401 UNAUTHENTICATED` error is returned.
+    - If the API call has a valid access token that does not have the
+    required scope, then a `403 PERMISSION_DENIED` error is returned.
+    - If the API call has an `applicationEndpointListId` that does not identify
+    any registered endpoint on the Edge Cloud, a `404 NOT_FOUND` error
+    is returned.
+
+    ### Additional CAMARA error responses
+
+    The list of error codes in this API specification is not exhaustive.
+    Therefore the API specification may not document some non-mandatory error
+    statuses as indicated in `CAMARA API Design Guide`.
+
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release
+    associated to this API version for a complete list of error responses.
+    The applicable Commonalities Release can be identified in the `API
+    Readiness Checklist` document associated to this API version.
+
+    As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible
+    error response if it is explicitly documented in the API.
 
     # Authorization and authentication
 
-    The "Camara Security and Interoperability Profile" provides details on
-    how a client requests an access token. Please refer to Identify and
-    Consent Management
+    The "Camara Security and Interoperability Profile" provides details of how
+    an API consumer requests an access token. Please refer to
+    Identity and Consent Management
     (https://github.com/camaraproject/IdentityAndConsentManagement/)
-    for the released version of the Profile.
+    for the released version of the profile.
 
-    Which specific authorization flows are to be used will be determined
-    during onboarding process, happening between the API Client and the
-    Telco Operator exposing the API, taking into account the declared
-    purpose for accessing the API, while also being subject to the prevailing
-     legal framework dictated by local legislation.
+    The specific authorization flows to be used will be agreed upon during the
+    onboarding process, happening between the API consumer and the
+    API provider, taking into account the declared purpose for accessing the
+    API, whilst also being subject to the prevailing legal framework dictated
+    by local legislation.
 
-    It is important to remark that in cases where personal user data
-    is processed by the API, and users can exercise their rights through
-    mechanisms such as opt-in and/or opt-out, the use of 3-legged access
-    tokens becomes mandatory. This measure ensures that the API remains in
-    strict compliance with user privacy preferences and regulatory obligations,
-    upholding the principles of transparency and user-centric data control.
+    In cases where personal data is processed by the API and users can exercise
+    their rights through mechanisms such as opt-in and/or opt-out, the use of
+    three-legged access tokens is mandatory. This ensures that the API remains
+    in compliance with privacy regulations, upholding the principles of
+    transparency and user-centric privacy-by-design.
 
     # Further info and support
 
@@ -74,17 +111,15 @@ info:
 
     (FAQs will be added in a later version of the documentation)
 
-  contact:
-    email: sp-edc@lists.camaraproject.org
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 externalDocs:
-  description: Project documentation at Camara
-  url: https://github.com/camaraproject/EdgeCloud
+  description: Project documentation at CAMARA
+  url: https://github.com/camaraproject/ApplicationEndpointRegistration
 
 servers:
-  - url: "{apiRoot}/application-endpoint-registration/vwip"
+  - url: "{apiRoot}/application-endpoint-registration/v0.1rc1"
     variables:
       apiRoot:
         default: http://localhost:9091
@@ -99,7 +134,7 @@ tags:
       application.
 
 paths:
-  /application-endpoints:
+  /application-endpoint-lists:
     post:
       security:
         - openId:
@@ -120,17 +155,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ApplicationEndpointInfo"
+              $ref: "#/components/schemas/ApplicationEndpointsInfo"
       responses:
         "200":
-          description: Returns an applicationEndpointsId
+          description: Returns an applicationEndpointListId
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpointsId"
+                $ref: "#/components/schemas/ApplicationEndpointListId"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -152,7 +187,7 @@ paths:
       summary: Get all registered edge application endpoint information
       description: |
         Returns endpoint information for all
-        Application Endpoints registered.
+        registered Applications.
       operationId: getAllRegisteredApplicationEndpoints
       parameters:
         - $ref: "#/components/parameters/x-correlator"
@@ -167,7 +202,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ApplicationEndpoints"
+                  $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -181,15 +216,15 @@ paths:
         "429":
           $ref: "#/components/responses/Generic429"
 
-  "/application-endpoints/{applicationEndpointsId}":
+  "/application-endpoint-lists/{applicationEndpointListId}":
     parameters:
-      - name: applicationEndpointsId
+      - name: applicationEndpointListId
         in: path
         description: The unique identifier for the application endpoints
           that got created when registering the application endpoints.
         required: true
         schema:
-          $ref: "#/components/schemas/ApplicationEndpointsId"
+          $ref: "#/components/schemas/ApplicationEndpointListId"
       - $ref: "#/components/parameters/x-correlator"
     get:
       security:
@@ -199,20 +234,20 @@ paths:
         - Application Endpoint Registration
       summary: Get registered edge application endpoint information
       description: |
-        Returns endpoint information for all
-        Application Endpoints registered to a
-        specified applicationEndpointId.
+        Returns endpoint information of the application based on
+        applicationEndpointListId.
       operationId: getApplicationEndpointsById
       responses:
         "200":
-          description: Array of registered Application Endpoints
+          description: Application Endpoint information based on
+            given ApplicationEndpointListID
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpoints"
+                $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
           $ref: "#/components/responses/Generic400"
         "401":
@@ -238,12 +273,11 @@ paths:
       operationId: updateApplicationEndpoint
       requestBody:
         description: Application Endpoint information
+        required: true
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: "#/components/schemas/ApplicationEndpointInfo"
+              $ref: "#/components/schemas/ApplicationEndpointsInfo"
       responses:
         "204":
           description: Updates Application Endpoint Information
@@ -303,79 +337,93 @@ components:
     x-correlator:
       description: Correlation id for the different services
       schema:
-        type: string
-        pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+        $ref: "#/components/schemas/XCorrelator"
   parameters:
     x-correlator:
       name: x-correlator
       in: header
       description: Correlation id for the different services
       schema:
-        type: string
-        pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
-        example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
-
+        $ref: "#/components/schemas/XCorrelator"
   schemas:
-    ApplicationEndpointInfo:
-      description: Application instance represented
-        by the application Endpoint definition
+    XCorrelator:
+      type: string
+      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+      example: "b4333c46-49c0-4f62-80d7-f0ef930f1c46"
+
+    ApplicationEndpointsInfo:
+      description: Endpoint information of the Application
+        deployed across different Edge Cloud Zones.
       type: object
       properties:
         applicationEndpoints:
           type: array
+          description: List of endpoints of the application deployed across
+            various Edge Cloud Zones
           items:
             $ref: "#/components/schemas/ApplicationEndpoint"
-        applicationServerProviderName:
+        applicationProviderName:
           type: string
-          description: Unique ID representing the Edge
-            Application Provider
+          description: Name of the Application Provider
+          example: "AppProvider"
         applicationDescription:
           type: string
-          description: Description of the application Endpoint
+          description: Description of the application.
+          example: "This is a V2X application."
         applicationProfileId:
           $ref: "#/components/schemas/ApplicationProfileId"
       required:
-        - applicationEndpoint
-        - applicationServerProviderName
+        - applicationEndpoints
+        - applicationProviderName
         - applicationProfileId
+      example:
+        applicationEndpoints:
+          - domainName: "app.example.com"
+            port: 8080
+            applicationEndpointDescription: "V2X app deployed at ZoneA"
+            edgeCloudZone:
+              edgeCloudZoneId: "123e4567-e89b-12d3-a456-426614174000"
+              edgeCloudZoneName: "ZoneA"
+              edgeCloudProvider: "ProviderA"
+              edgeCloudRegion: "us-west-1"
+              edgeCloudZoneStatus: "active"
+        applicationProviderName: "AppProvider"
+        applicationDescription: "This is a V2X application."
+        applicationProfileId: "123e4567-e89b-12d3-a456-426614174000"
 
-    ApplicationEndpoints:
+    ApplicationEndpointList:
+      type: object
       description: |
         List of Application endpoints information
         deployed across various cloud zones.
+      required:
+        - applicationEndpointListId
+        - applicationEndpointsInfo
       properties:
-        applicationEndpointsId:
-          $ref: "#/components/schemas/ApplicationEndpointsId"
+        applicationEndpointListId:
+          $ref: "#/components/schemas/ApplicationEndpointListId"
         applicationEndpointsInfo:
-          $ref: "#/components/schemas/ApplicationEndpointInfo"
+          $ref: "#/components/schemas/ApplicationEndpointsInfo"
 
     ApplicationEndpoint:
       type: object
       description: |
         An application server IP address or FQDN with a port,
         exposed by an application instance deployed on the Edge Cloud
-        provider.
+        Zone.
       required:
         - port
       anyOf:
-        - required: [fqdn]
-        - required: [ipv4Addresses]
-        - required: [ipv6Addresses]
+        - required: [domainName]
+        - required: [ipv4Address]
+        - required: [ipv6Address]
       properties:
-        fqdn:
-          $ref: "#/components/schemas/Fqdn"
-        ipv4Addresses:
-          description: Array of IPv4 addresses.
-          type: array
-          items:
-            $ref: "#/components/schemas/Ipv4Address"
-          minItems: 1
-        ipv6Addresses:
-          description: Array of IPv6 addresses.
-          type: array
-          items:
-            $ref: "#/components/schemas/Ipv6Address"
-          minItems: 1
+        domainName:
+          $ref: "#/components/schemas/DomainName"
+        ipv4Address:
+          $ref: "#/components/schemas/SingleIpv4Addr"
+        ipv6Address:
+          $ref: "#/components/schemas/SingleIpv6Addr"
         port:
           $ref: "#/components/schemas/Port"
         edgeCloudZone:
@@ -383,6 +431,7 @@ components:
         applicationEndpointDescription:
           type: string
           description: Description of the application endpoint
+          example: "V2X app deployed at ZoneA"
 
     EdgeCloudZone:
       type: object
@@ -443,43 +492,56 @@ components:
       pattern: ^[A-Za-z0-9]([A-Za-z0-9-]{0,53}[A-Za-z0-9])?$
       example: "ZoneA"
 
-    ApplicationEndpointsId:
+    ApplicationEndpointListId:
       description: |
         A system-defined string identifier representing
-        one or more registered Application Endpoints.
+        one or more registered Application Endpoints. This ID is generated
+        by the system upon successful registration of an application and is
+        used to reference the registered endpoints in subsequent operations.
       type: string
       format: uuid
       readOnly: true
       additionalProperties: false
+      example: "98765432-e89b-12d3-a456-426614174999"
 
     ApplicationProfileId:
-      description: A unique identifier for the application profile.
+      description: |
+        A unique identifier for the application profile. This represents
+        the application's network and compute characteristics.
       type: string
       format: uuid
       example: "123e4567-e89b-12d3-a456-426614174000"
 
-    Fqdn:
-      type: string
-      description: Fully Qualified Domain Name.
-
-    Ipv4Address:
+    DomainName:
       type: string
       description: |
-        A single IPv4 address specified in dotted-quad form like 1.2.3.4.
-      example: "198.51.100.1"
+        Application's Domain Name, which is a Fully Qualified Domain Name (FQDN).
+      pattern: ^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)+$
+      maxLength: 253
+      minLength: 4
+      example: "app.example.com"
 
-    Ipv6Address:
+    SingleIpv4Addr:
+      description: A single IPv4 address with no subnet mask
       type: string
+      format: ipv4
+      example: "84.125.93.10"
+
+    SingleIpv6Addr:
       description: |
-        A single IPv6 address, following IETF 5952 format like
-        2001:db8:85a3:8d3:1319:8a2e:370:7344.
-      example: "2001:db8:85a3::8a2e:370:7334"
+        Single IPv6 address with no subnet mask
+      type: string
+      format: ipv6
+      example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
 
     Port:
-      description: TCP or UDP port number
+      description: |
+        TCP or UDP port number for the application endpoint.
+        Valid range is 0-65535.
       type: integer
       minimum: 0
       maximum: 65535
+      example: 8080
 
     ErrorInfo:
       description: Common schema for errors
