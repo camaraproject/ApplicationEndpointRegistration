@@ -1,9 +1,9 @@
-  @Application_Endpoint_Registration
+@Application_Endpoint_Registration
 Feature: CAMARA Application Endpoint Registration API, v0.1.0-rc.1 - Operations for registering application endpoints
 
-# Input to be provided by the implementation to the tests
-# * apiRoot: API root of the server URL
-# References to OAS spec schemas refer to schemas specified in application-endpoint-registration.yaml
+  # Input to be provided by the implementation to the tests
+  # * apiRoot: API root of the server URL
+  # References to OAS spec schemas refer to schemas specified in application-endpoint-registration.yaml
 
   Background: Common Application Endpoint Registration setup
     Given an environment at "apiRoot"
@@ -12,7 +12,7 @@ Feature: CAMARA Application Endpoint Registration API, v0.1.0-rc.1 - Operations 
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
 
-######### Happy Path Scenarios #################################
+  ######### Happy Path Scenarios #################################
 
   @application_endpoint_registration_01_register_app_endpoints
   Scenario: Register a new application endpoint
@@ -58,7 +58,7 @@ Feature: CAMARA Application Endpoint Registration API, v0.1.0-rc.1 - Operations 
     Then the response code is 204
     And the response header "x-correlator" has same value as the request header "x-correlator"
 
-######### Error Scenarios #################################
+  ######### Error Scenarios #################################
 
   @application_endpoint_registration_06_invalid_registration
   Scenario: Register application endpoint with invalid data
