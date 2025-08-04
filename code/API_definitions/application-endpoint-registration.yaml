@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Application Endpoints Registration
-  version: 0.1.0-rc.1
+  version: wip
   x-camara-commonalities: 0.6
   description: |
     The Application Endpoints Registration API provides a programmable
