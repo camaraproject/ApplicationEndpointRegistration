@@ -1,12 +1,12 @@
 # Application Endpoints Registration API Readiness minimum criteria checklist
 
-Checklist for Application-Endpoint-Registration v0.1.0-rc1 in r1.1
+Checklist for Application-Endpoint-Registration v0.1.0
 
 | Nr | API release assets  | alpha | release-candidate |  initial<br>public | stable<br> public | Status | Reference information |
 |----|----------------------------------------------|:-----:|:-----------------:|:-------:|:------:|:----:|----|
 |  1 | API definition                               |   M   |         M         |    M    |    M   | Y    | [link](/code/API_definitions/application-endpoint-registration.yaml) |
-|  2 | Design guidelines from Commonalities applied |   O   |         M         |    M    |    M   | Y    | Comm. release r3.2 |
-|  3 | Guidelines from ICM applied                  |   O   |         M         |    M    |    M   | Y    | ICM release r3.2 |
+|  2 | Design guidelines from Commonalities applied |   O   |         M         |    M    |    M   | Y    | [r3.3](https://github.com/camaraproject/Commonalities/releases/tag/r3.3) |
+|  3 | Guidelines from ICM applied                  |   O   |         M         |    M    |    M   | Y    | [r3.3](https://github.com/camaraproject/IdentityAndConsentManagement/releases/tag/r3.3) |
 |  4 | API versioning convention applied            |   M   |         M         |    M    |    M   | Y    |      |
 |  5 | API documentation                            |   M   |         M         |    M    |    M   | Y    | inline in YAML |
 |  6 | User stories                                 |   O   |         O         |    O    |    M   | Y    | [link](/documentation/API_documentation/application-endpoint-registration-User-Story.md) |
