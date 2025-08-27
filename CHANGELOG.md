@@ -2,6 +2,7 @@
 
 ## Table of contents
 
+- **[r1.2](#r12---rc)**
 - **[r1.1 - rc](#r11---rc)**
 
 **Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until it has been released. For example, changes may be reverted before a release is published. For the best results, use the latest published release.**
@@ -15,6 +16,19 @@ The below sections record the changes for each API version in each release as fo
 
 <!--Repeat the below release section (header 1 and subsections) at the top of this file for each new (pre-)release-->
 
+# r1.2 (Fall25 public release)
+This public release contains the definition and documentation of
+* application-endpoint-registration v0.1.0
+
+The API definition(s) are based on
+* Commonalities v0.6.0 (r3.3)
+* Identity and Consent Management v0.4.0 (r3.3)
+
+- API definition with inline documentation:
+  - [View it on ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml&nocors)
+  - [View it on Swagger Editor](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+  - [OpenAPI YAML spec file](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+  
 # r1.1
 
 ## Release Notes
