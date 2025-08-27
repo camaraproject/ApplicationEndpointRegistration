@@ -24,6 +24,14 @@ Sandbox API Repository to describe, develop, document, and test the ApplicationE
 
 ## Release Information
 
+* Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest public release**.
+* **NEW: Latest public release [r1.2](https://github.com/camaraproject/ApplicationEndpointRegistration/releases/tag/r1.2) is available, with the following API version:**
+  * **application-endpoint-registration v0.1.0**  
+  [[YAML]](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml&nocors)
+  [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+
+
 <!--The repository has no (pre)releases yet, work in progress is within the main branch.-->
 <!-- Optional: an explicit listing of the latest (pre-)release with additional information, e.g. links to the API definitions -->
 <!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
