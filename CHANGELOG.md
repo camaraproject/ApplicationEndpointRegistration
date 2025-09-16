@@ -33,7 +33,7 @@ The API definition(s) are based on
   - [OpenAPI YAML spec file](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.2/code/API_definitions/application-endpoint-registration.yaml)
 
 ### Added
-* n/a
+* Creation of the application-endpoint-registration API yaml file
 ### Changed
 * n/a  
 
