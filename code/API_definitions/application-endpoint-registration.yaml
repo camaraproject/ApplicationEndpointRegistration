@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Application Endpoints Registration
-  version: wip
+  version: 0.1.0
   x-camara-commonalities: 0.6
   description: |
     The Application Endpoints Registration API provides a programmable
@@ -56,7 +56,7 @@ info:
                           Endpoints.
     ## Errors
 
-    - If the API call contains a formatting or other any other syntatic error,
+    - If the API call contains a formatting or any other syntactic error,
     a `400 INVALID_ARGUMENT` error is returned.
     - If the API call cannot be authenticated due to missing, invalid, or
     expired credentials, a `401 UNAUTHENTICATED` error is returned.
@@ -119,7 +119,7 @@ externalDocs:
   url: https://github.com/camaraproject/ApplicationEndpointRegistration
 
 servers:
-  - url: "{apiRoot}/application-endpoint-registration/vwip"
+  - url: "{apiRoot}/application-endpoint-registration/v0.1"
     variables:
       apiRoot:
         default: http://localhost:9091
