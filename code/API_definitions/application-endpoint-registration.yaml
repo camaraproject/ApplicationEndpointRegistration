@@ -56,7 +56,7 @@ info:
                           Endpoints.
     ## Errors
 
-    - If the API call contains a formatting or other any other syntactic error,
+    - If the API call contains a formatting or any other syntactic error,
     a `400 INVALID_ARGUMENT` error is returned.
     - If the API call cannot be authenticated due to missing, invalid, or
     expired credentials, a `401 UNAUTHENTICATED` error is returned.
