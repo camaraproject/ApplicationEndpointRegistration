@@ -22,23 +22,25 @@ Sandbox API Repository to describe, develop, document, and test the ApplicationE
 * Started: July 2022 (in [EdgeCloud](https://github.com/camaraproject/EdgeCloud) repository)
 <!-- * Incubating stage since: {{incubation date}} --> 
 
+<!-- CAMARA:RELEASE-INFO:START -->
+<!-- The following section is automatically maintained by the CAMARA project-administration tooling: https://github.com/camaraproject/project-administration -->
+
 ## Release Information
 
-* Note: Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest public release**.
-* **NEW: Latest public release [r1.2](https://github.com/camaraproject/ApplicationEndpointRegistration/releases/tag/r1.2) is available, with the following API version:**
-  * **application-endpoint-registration v0.1.0**  
+> [!NOTE]
+> Please be aware that the project will have frequent updates to the main branch. There are no compatibility guarantees associated with code in any branch, including main, until a new release is created. For example, changes may be reverted before a release is created. **For best results, use the latest available release**.
+
+* **NEW**: The latest public release is [r1.2](https://github.com/camaraproject/ApplicationEndpointRegistration/releases/tag/r1.2) (Fall25), with the following API versions:
+  * **application-endpoint-registration v0.1.0**
   [[YAML]](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/r1.2/code/API_definitions/application-endpoint-registration.yaml)
-  [[View it on ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml&nocors)
-  [[View it on Swagger Editor]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+  [[ReDoc]](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml&nocors)
+  [[Swagger]](https://camaraproject.github.io/swagger-ui/?url=https://raw.githubusercontent.com/camaraproject/ApplicationEndpointRegistration/r1.2/code/API_definitions/application-endpoint-registration.yaml)
+* The latest public release is always available here: https://github.com/camaraproject/ApplicationEndpointRegistration/releases/latest
+* Other releases of this repository are available in https://github.com/camaraproject/ApplicationEndpointRegistration/releases
+* For changes see [CHANGELOG.md](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/main/CHANGELOG.md)
 
-
-<!--The repository has no (pre)releases yet, work in progress is within the main branch.-->
-<!-- Optional: an explicit listing of the latest (pre-)release with additional information, e.g. links to the API definitions -->
-<!-- In addition use/uncomment one or multiple the following alternative options when becoming applicable -->
-Pre-releases of this sub project are available in https://github.com/camaraproject/ApplicationEndpointRegistration/releases
-<!--The latest public release is available here: https://github.com/camaraproject/ApplicationEndpointRegistration/releases/latest-->
-
-For changes see [CHANGELOG.md](https://github.com/camaraproject/ApplicationEndpointRegistration/blob/main/CHANGELOG.md)
+_The above section is automatically synchronized by CAMARA project-administration._
+<!-- CAMARA:RELEASE-INFO:END -->
 
 ## Contributing
 
