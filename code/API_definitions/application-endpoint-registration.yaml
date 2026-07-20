@@ -333,11 +333,13 @@ components:
         applicationProviderName:
           type: string
           maxLength: 256
+          pattern: ^[^\r\n]*$
           description: Name of the Application Provider
           example: "AppProvider"
         applicationDescription:
           type: string
           maxLength: 2048
+          pattern: ^[^\r\n]*$
           description: Description of the application.
           example: "This is a V2X application."
         applicationProfileId:
@@ -401,6 +403,7 @@ components:
         applicationEndpointDescription:
           type: string
           maxLength: 2048
+          pattern: ^[^\r\n]*$
           description: Description of the application endpoint
           example: "V2X app deployed at ZoneA"
 
