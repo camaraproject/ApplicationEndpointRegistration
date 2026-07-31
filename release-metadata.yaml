@@ -1,0 +1,13 @@
+repository:
+  repository_name: ApplicationEndpointRegistration
+  release_tag: r2.1
+  release_type: pre-release-rc
+  release_date: null
+  src_commit_sha: cb2c839d225b19d44c337a35589a6e1415d9b8c3
+apis:
+- api_name: application-endpoint-registration
+  api_version: 0.2.0-rc.1
+  api_title: Application Endpoints Registration
+dependencies:
+  commonalities_release: r4.3 (0.8.0)
+  identity_consent_management_release: r4.2 (0.5.0)

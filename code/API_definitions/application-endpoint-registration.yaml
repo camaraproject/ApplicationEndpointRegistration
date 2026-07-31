@@ -1,9 +1,8 @@
----
 openapi: 3.0.3
 info:
   title: Application Endpoints Registration
-  version: wip
-  x-camara-commonalities: wip
+  version: 0.2.0-rc.1
+  x-camara-commonalities: 0.8.0
   description: |
     The Application Endpoints Registration API provides a programmable
     interface for developers to register the endpoints of an application
@@ -91,27 +90,23 @@ info:
     please see [Mobile Connect website](https://mobileconnect.io/).
 
     (FAQs will be added in a later version of the documentation)
-
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
-externalDocs:
-  description: Project documentation at CAMARA
-  url: https://github.com/camaraproject/ApplicationEndpointRegistration
-
 servers:
-  - url: "{apiRoot}/application-endpoint-registration/vwip"
+  - url: '{apiRoot}/application-endpoint-registration/v0.2rc1'
     variables:
       apiRoot:
         default: http://localhost:9091
         description: API root, defined by the service provider, e.g. `api.example.com` or `api.example.com/somepath`
-
 tags:
   - name: Application Endpoint Registration
     description: |
       Operations to register, read and manage deployed instances of the
       application.
-
+externalDocs:
+  description: Project documentation at CAMARA
+  url: https://github.com/camaraproject/ApplicationEndpointRegistration
 paths:
   /application-endpoint-lists:
     post:
@@ -126,17 +121,16 @@ paths:
         to a specified edge cloud zone.
       operationId: registerApplicationEndpoints
       parameters:
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: '#/components/parameters/x-correlator'
       requestBody:
-        description: Array of Application Endpoints for an
-          application deployed across various Edge Cloud Zones.
+        description: Array of Application Endpoints for an application deployed across various Edge Cloud Zones.
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ApplicationEndpointsInfo"
+              $ref: '#/components/schemas/ApplicationEndpointsInfo'
       responses:
-        "200":
+        '200':
           description: Returns an applicationEndpointListId
           headers:
             x-correlator:
@@ -144,19 +138,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpointListId"
-        "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
-        "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
-        "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
-        "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
-        "422":
-          $ref: "#/components/responses/Generic422"
-        "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+                $ref: '#/components/schemas/ApplicationEndpointListId'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '422':
+          $ref: '#/components/responses/Generic422'
+        '429':
+          $ref: '#/components/responses/Generic429'
     get:
       security:
         - openId:
@@ -169,9 +163,9 @@ paths:
         registered Applications.
       operationId: getAllRegisteredApplicationEndpoints
       parameters:
-        - $ref: "#/components/parameters/x-correlator"
+        - $ref: '#/components/parameters/x-correlator'
       responses:
-        "200":
+        '200':
           description: Array of registered Application Endpoints
           headers:
             x-correlator:
@@ -182,30 +176,28 @@ paths:
                 type: array
                 maxItems: 20
                 items:
-                  $ref: "#/components/schemas/ApplicationEndpointList"
-        "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
-        "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
-        "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
-        "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
-        "422":
-          $ref: "#/components/responses/Generic422"
-        "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
-
-  "/application-endpoint-lists/{applicationEndpointListId}":
+                  $ref: '#/components/schemas/ApplicationEndpointList'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '422':
+          $ref: '#/components/responses/Generic422'
+        '429':
+          $ref: '#/components/responses/Generic429'
+  /application-endpoint-lists/{applicationEndpointListId}:
     parameters:
       - name: applicationEndpointListId
         in: path
-        description: The unique identifier for the application endpoints
-          that got created when registering the application endpoints.
+        description: The unique identifier for the application endpoints that got created when registering the application endpoints.
         required: true
         schema:
-          $ref: "#/components/schemas/ApplicationEndpointListId"
-      - $ref: "#/components/parameters/x-correlator"
+          $ref: '#/components/schemas/ApplicationEndpointListId'
+      - $ref: '#/components/parameters/x-correlator'
     get:
       security:
         - openId:
@@ -218,29 +210,27 @@ paths:
         applicationEndpointListId.
       operationId: getApplicationEndpointsById
       responses:
-        "200":
-          description: Application Endpoint information based on
-            given ApplicationEndpointListID
+        '200':
+          description: Application Endpoint information based on given ApplicationEndpointListID
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ApplicationEndpointList"
-        "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
-        "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
-        "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
-        "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
-        "422":
-          $ref: "#/components/responses/Generic422"
-        "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
-
+                $ref: '#/components/schemas/ApplicationEndpointList'
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '422':
+          $ref: '#/components/responses/Generic422'
+        '429':
+          $ref: '#/components/responses/Generic429'
     put:
       security:
         - openId:
@@ -257,26 +247,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ApplicationEndpointsInfo"
+              $ref: '#/components/schemas/ApplicationEndpointsInfo'
       responses:
-        "204":
+        '204':
           description: Updates Application Endpoint Information
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
-        "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
-        "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
-        "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
-        "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
-        "422":
-          $ref: "#/components/responses/Generic422"
-        "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
-
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '422':
+          $ref: '#/components/responses/Generic422'
+        '429':
+          $ref: '#/components/responses/Generic429'
     delete:
       security:
         - openId:
@@ -289,80 +278,84 @@ paths:
         Endpoint from the edge cloud zone.
       operationId: deregisterApplicationEndpoint
       responses:
-        "204":
+        '204':
           description: Deregister Application Endpoint
           headers:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
-        "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
-        "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
-        "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
-        "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
-        "422":
-          $ref: "#/components/responses/Generic422"
-        "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
-
+        '400':
+          $ref: '#/components/responses/Generic400'
+        '401':
+          $ref: '#/components/responses/Generic401'
+        '403':
+          $ref: '#/components/responses/Generic403'
+        '404':
+          $ref: '#/components/responses/Generic404'
+        '422':
+          $ref: '#/components/responses/Generic422'
+        '429':
+          $ref: '#/components/responses/Generic429'
 components:
   securitySchemes:
     openId:
-      $ref: "../common/CAMARA_common.yaml#/components/securitySchemes/openId"
+      type: openIdConnect
+      openIdConnectUrl: https://example.com/.well-known/openid-configuration
+      description: OpenID Connect authentication via discovery metadata.
   headers:
     x-correlator:
-      $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
+      description: Correlation id for the different services
+      schema:
+        $ref: '#/components/schemas/XCorrelator'
   parameters:
     x-correlator:
-      $ref: "../common/CAMARA_common.yaml#/components/parameters/x-correlator"
+      name: x-correlator
+      in: header
+      description: Correlation id for the different services
+      schema:
+        $ref: '#/components/schemas/XCorrelator'
   schemas:
     ApplicationEndpointsInfo:
-      description: Endpoint information of the Application
-        deployed across different Edge Cloud Zones.
+      description: Endpoint information of the Application deployed across different Edge Cloud Zones.
       type: object
       properties:
         applicationEndpoints:
           type: array
           maxItems: 20
-          description: List of endpoints of the application deployed across
-            various Edge Cloud Zones
+          description: List of endpoints of the application deployed across various Edge Cloud Zones
           items:
-            $ref: "#/components/schemas/ApplicationEndpoint"
+            $ref: '#/components/schemas/ApplicationEndpoint'
         applicationProviderName:
           type: string
           maxLength: 256
           pattern: ^[^\r\n]*$
           description: Name of the Application Provider
-          example: "AppProvider"
+          example: AppProvider
         applicationDescription:
           type: string
           maxLength: 2048
           pattern: ^[^\r\n]*$
           description: Description of the application.
-          example: "This is a V2X application."
+          example: This is a V2X application.
         applicationProfileId:
-          $ref: "#/components/schemas/ApplicationProfileId"
+          $ref: '#/components/schemas/ApplicationProfileId'
       required:
         - applicationEndpoints
         - applicationProviderName
         - applicationProfileId
       example:
         applicationEndpoints:
-          - domainName: "app.example.com"
+          - domainName: app.example.com
             port: 8080
-            applicationEndpointDescription: "V2X app deployed at ZoneA"
+            applicationEndpointDescription: V2X app deployed at ZoneA
             edgeCloudZone:
-              edgeCloudZoneId: "123e4567-e89b-12d3-a456-426614174000"
-              edgeCloudZoneName: "ZoneA"
-              edgeCloudProvider: "ProviderA"
-              edgeCloudRegion: "us-west-1"
-              edgeCloudZoneStatus: "active"
-        applicationProviderName: "AppProvider"
-        applicationDescription: "This is a V2X application."
-        applicationProfileId: "123e4567-e89b-12d3-a456-426614174000"
-
+              edgeCloudZoneId: 123e4567-e89b-12d3-a456-426614174000
+              edgeCloudZoneName: ZoneA
+              edgeCloudProvider: ProviderA
+              edgeCloudRegion: us-west-1
+              edgeCloudZoneStatus: active
+        applicationProviderName: AppProvider
+        applicationDescription: This is a V2X application.
+        applicationProfileId: 123e4567-e89b-12d3-a456-426614174000
     ApplicationEndpointList:
       type: object
       description: |
@@ -373,10 +366,9 @@ components:
         - applicationEndpointsInfo
       properties:
         applicationEndpointListId:
-          $ref: "#/components/schemas/ApplicationEndpointListId"
+          $ref: '#/components/schemas/ApplicationEndpointListId'
         applicationEndpointsInfo:
-          $ref: "#/components/schemas/ApplicationEndpointsInfo"
-
+          $ref: '#/components/schemas/ApplicationEndpointsInfo'
     ApplicationEndpoint:
       type: object
       description: |
@@ -386,27 +378,29 @@ components:
       required:
         - port
       anyOf:
-        - required: [domainName]
-        - required: [ipv4Address]
-        - required: [ipv6Address]
+        - required:
+            - domainName
+        - required:
+            - ipv4Address
+        - required:
+            - ipv6Address
       properties:
         domainName:
-          $ref: "#/components/schemas/DomainName"
+          $ref: '#/components/schemas/DomainName'
         ipv4Address:
-          $ref: "../common/CAMARA_common.yaml#/components/schemas/SingleIpv4Address"
+          $ref: '#/components/schemas/SingleIpv4Address'
         ipv6Address:
-          $ref: "#/components/schemas/SingleIpv6Addr"
+          $ref: '#/components/schemas/SingleIpv6Addr'
         port:
-          $ref: "#/components/schemas/Port"
+          $ref: '#/components/schemas/Port'
         edgeCloudZone:
-          $ref: "#/components/schemas/EdgeCloudZone"
+          $ref: '#/components/schemas/EdgeCloudZone'
         applicationEndpointDescription:
           type: string
           maxLength: 2048
           pattern: ^[^\r\n]*$
           description: Description of the application endpoint
-          example: "V2X app deployed at ZoneA"
-
+          example: V2X app deployed at ZoneA
     EdgeCloudZone:
       type: object
       description: |
@@ -421,23 +415,21 @@ components:
         - edgeCloudProvider
       properties:
         edgeCloudZoneId:
-          $ref: "#/components/schemas/EdgeCloudZoneId"
+          $ref: '#/components/schemas/EdgeCloudZoneId'
         edgeCloudZoneName:
-          $ref: "#/components/schemas/EdgeCloudZoneName"
+          $ref: '#/components/schemas/EdgeCloudZoneName'
         edgeCloudZoneStatus:
-          $ref: "#/components/schemas/EdgeCloudZoneStatus"
+          $ref: '#/components/schemas/EdgeCloudZoneStatus'
         edgeCloudProvider:
-          $ref: "#/components/schemas/EdgeCloudProvider"
+          $ref: '#/components/schemas/EdgeCloudProvider'
         edgeCloudRegion:
-          $ref: "#/components/schemas/EdgeCloudRegion"
-
+          $ref: '#/components/schemas/EdgeCloudRegion'
     EdgeCloudZoneId:
       description: A unique identifier for the Edge Cloud Zone.
       type: string
       format: uuid
       maxLength: 36
-      example: "123e4567-e89b-12d3-a456-426614174000"
-
+      example: 123e4567-e89b-12d3-a456-426614174000
     EdgeCloudRegion:
       description: |
         The EdgeCloudProvider's name for the region where the Edge Cloud
@@ -445,8 +437,7 @@ components:
       type: string
       maxLength: 64
       pattern: ^[A-Za-z0-9]([A-Za-z0-9-]{0,53}[A-Za-z0-9])?$
-      example: "us-west-1"
-
+      example: us-west-1
     EdgeCloudZoneStatus:
       description: Status of the Edge Cloud Zone (default is 'unknown')
       type: string
@@ -455,21 +446,18 @@ components:
         - inactive
         - unknown
       default: unknown
-
     EdgeCloudProvider:
       description: The provider of the Edge Cloud.
       type: string
       maxLength: 64
       pattern: ^[A-Za-z0-9]([A-Za-z0-9-]{0,53}[A-Za-z0-9])?$
-      example: "ProviderA"
-
+      example: ProviderA
     EdgeCloudZoneName:
       description: The name of the Edge Cloud Zone.
       type: string
       maxLength: 64
       pattern: ^[A-Za-z0-9]([A-Za-z0-9-]{0,53}[A-Za-z0-9])?$
-      example: "ZoneA"
-
+      example: ZoneA
     ApplicationEndpointListId:
       description: |
         A system-defined string identifier representing
@@ -481,8 +469,7 @@ components:
       maxLength: 36
       readOnly: true
       additionalProperties: false
-      example: "98765432-e89b-12d3-a456-426614174999"
-
+      example: 98765432-e89b-12d3-a456-426614174999
     ApplicationProfileId:
       description: |
         A unique identifier for the application profile. This represents
@@ -490,8 +477,7 @@ components:
       type: string
       format: uuid
       maxLength: 36
-      example: "123e4567-e89b-12d3-a456-426614174000"
-
+      example: 123e4567-e89b-12d3-a456-426614174000
     DomainName:
       type: string
       description: |
@@ -499,8 +485,7 @@ components:
       pattern: ^[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?(\.[a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?)+$
       maxLength: 253
       minLength: 4
-      example: "app.example.com"
-
+      example: app.example.com
     SingleIpv6Addr:
       description: |
         Single IPv6 address with no subnet mask
@@ -508,7 +493,6 @@ components:
       format: ipv6
       maxLength: 45
       example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
-
     Port:
       description: |
         TCP or UDP port number for the application endpoint.
@@ -518,18 +502,51 @@ components:
       minimum: 1
       maximum: 65535
       example: 8080
-
+    XCorrelator:
+      type: string
+      description: Correlator string, UUID format recommended but any string matching the pattern can be used
+      pattern: ^[a-zA-Z0-9-_:;.\/<>{}]{0,256}$
+      maxLength: 256
+      example: b4333c46-49c0-4f62-80d7-f0ef930f1c46
+    SingleIpv4Address:
+      description: A single IPv4 address with no subnet mask
+      type: string
+      format: ipv4
+      maxLength: 15
+      example: 84.125.93.10
+    ErrorInfo:
+      type: object
+      description: A structured error response providing details about a failed request, including the HTTP status code, an error code, and a human-readable message
+      required:
+        - status
+        - code
+        - message
+      properties:
+        status:
+          type: integer
+          format: int32
+          minimum: 100
+          maximum: 599
+          description: HTTP response status code
+        code:
+          type: string
+          maxLength: 96
+          description: A human-readable code to describe the error
+        message:
+          type: string
+          maxLength: 512
+          description: A human-readable description of what the event represents
   responses:
     Generic422:
       description: Unprocessable Content
       headers:
         x-correlator:
-          $ref: "#/components/headers/x-correlator"
+          $ref: '#/components/headers/x-correlator'
       content:
         application/json:
           schema:
             allOf:
-              - $ref: "../common/CAMARA_common.yaml#/components/schemas/ErrorInfo"
+              - $ref: '#/components/schemas/ErrorInfo'
               - type: object
                 properties:
                   status:
@@ -555,3 +572,156 @@ components:
                 status: 422
                 code: UNIDENTIFIABLE_APPLICATION_PROFILE
                 message: The Application Profile cannot be identified
+    Generic400:
+      description: Bad Request
+      headers:
+        x-correlator:
+          $ref: '#/components/headers/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 400
+                  code:
+                    enum:
+                      - INVALID_ARGUMENT
+                      - OUT_OF_RANGE
+          examples:
+            GENERIC_400_INVALID_ARGUMENT:
+              description: Invalid Argument. Generic Syntax Exception
+              value:
+                status: 400
+                code: INVALID_ARGUMENT
+                message: Client specified an invalid argument, request body or query param.
+            GENERIC_400_OUT_OF_RANGE:
+              description: Out of Range. Specific Syntax Exception used when a given field has a pre-defined range or a invalid filter criteria combination is requested
+              value:
+                status: 400
+                code: OUT_OF_RANGE
+                message: Client specified an invalid range.
+    Generic401:
+      description: Unauthorized
+      headers:
+        x-correlator:
+          $ref: '#/components/headers/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 401
+                  code:
+                    enum:
+                      - UNAUTHENTICATED
+          examples:
+            GENERIC_401_UNAUTHENTICATED:
+              description: Request cannot be authenticated and a new authentication is required
+              value:
+                status: 401
+                code: UNAUTHENTICATED
+                message: Request not authenticated due to missing, invalid, or expired credentials. A new authentication is required.
+    Generic403:
+      description: Forbidden
+      headers:
+        x-correlator:
+          $ref: '#/components/headers/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 403
+                  code:
+                    enum:
+                      - PERMISSION_DENIED
+                      - INVALID_TOKEN_CONTEXT
+          examples:
+            GENERIC_403_PERMISSION_DENIED:
+              description: Permission denied. OAuth2 token access does not have the required scope or when the user fails operational security
+              value:
+                status: 403
+                code: PERMISSION_DENIED
+                message: Client does not have sufficient permissions to perform this action.
+            GENERIC_403_INVALID_TOKEN_CONTEXT:
+              description: Reflect some inconsistency between information in some field of the API and the related OAuth2 Token
+              value:
+                status: 403
+                code: INVALID_TOKEN_CONTEXT
+                message: Request body is not consistent with access token.
+    Generic404:
+      description: Not found
+      headers:
+        x-correlator:
+          $ref: '#/components/headers/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 404
+                  code:
+                    enum:
+                      - NOT_FOUND
+                      - IDENTIFIER_NOT_FOUND
+          examples:
+            GENERIC_404_NOT_FOUND:
+              description: Resource is not found
+              value:
+                status: 404
+                code: NOT_FOUND
+                message: The specified resource is not found.
+            GENERIC_404_IDENTIFIER_NOT_FOUND:
+              description: Some identifier cannot be matched to a device
+              value:
+                status: 404
+                code: IDENTIFIER_NOT_FOUND
+                message: Device identifier not found.
+    Generic429:
+      description: Too Many Requests
+      headers:
+        x-correlator:
+          $ref: '#/components/headers/x-correlator'
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/ErrorInfo'
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 429
+                  code:
+                    enum:
+                      - QUOTA_EXCEEDED
+                      - TOO_MANY_REQUESTS
+          examples:
+            GENERIC_429_QUOTA_EXCEEDED:
+              description: Request is rejected due to exceeding a business quota limit
+              value:
+                status: 429
+                code: QUOTA_EXCEEDED
+                message: Out of resource quota.
+            GENERIC_429_TOO_MANY_REQUESTS:
+              description: Access to the API has been temporarily blocked due to rate or spike arrest limits being reached
+              value:
+                status: 429
+                code: TOO_MANY_REQUESTS
+                message: Rate limit reached.
