@@ -77,7 +77,11 @@ Changes documented below are compared to version 0.1.0.
 
 ### Changed
 
-* N/A
+* Aligned the API with CAMARA Commonalities r4.3 (0.8.0) by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
+  * Common definitions reused via `$ref` into `CAMARA_common.yaml` (`openId`, `x-correlator`, `Device`, `DeviceResponse`, `ErrorInfo`, `SingleIpv4Address`, and all generic error responses)
+  * Added the mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
+  * Added `maxLength` constraints to all string fields and `maxItems: 20` to all array fields
+  * `Port` minimum changed from `0` to `1`, aligned with the CAMARA common definition
 
 ### Fixed
 
