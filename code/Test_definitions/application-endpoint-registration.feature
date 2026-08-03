@@ -21,7 +21,7 @@ Feature: CAMARA Application Endpoint Registration API, vwip - Operations for reg
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpointsId"
+    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpointListId"
     And the response contains a valid application endpoint ID
 
   @application_endpoint_registration_02_get_all_app_endpoints
@@ -30,7 +30,7 @@ Feature: CAMARA Application Endpoint Registration API, vwip - Operations for reg
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpoints"
+    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpointList"
     And the response contains a list of application endpoints
 
   @application_endpoint_registration_03_get_app_endpoint
@@ -40,7 +40,7 @@ Feature: CAMARA Application Endpoint Registration API, vwip - Operations for reg
     Then the response code is 200
     And the response header "Content-Type" is "application/json"
     And the response header "x-correlator" has same value as the request header "x-correlator"
-    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpoints"
+    And the response body complies with the OAS schema at "/components/schemas/ApplicationEndpointList"
     And the response contains the correct application endpoint details
 
   @application_endpoint_registration_04_update_app_endpoint
