@@ -506,4 +506,3 @@ components:
       minimum: 1
       maximum: 65535
       example: 8080
-
