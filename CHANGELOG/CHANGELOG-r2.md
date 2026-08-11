@@ -83,7 +83,9 @@ Changes documented below are compared to version 0.1.0.
 
 ### Fixed
 
-* N/A
+* fix: align API with CAMARA Commonalities r4.3 validation requirements by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
+* fix: correct schema references in test feature file by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/42
+* fix: remove inapplicable error response codes per Commonalities r4.3 by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49
 
 ### Removed
 
