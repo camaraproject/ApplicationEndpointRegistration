@@ -2,7 +2,7 @@ repository:
   repository_name: ApplicationEndpointRegistration
   release_tag: r2.1
   release_type: pre-release-rc
-  release_date: null
+  release_date: '2026-08-20T02:02:25Z'
   src_commit_sha: 04795c6bc137f898a2ff663a573072e58e1f019f
 apis:
 - api_name: application-endpoint-registration
