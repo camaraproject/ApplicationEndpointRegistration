@@ -12,14 +12,34 @@ info:
 
     # Introduction
 
-    The API registers the Application Endpoints.
-    This information can be used for various use cases like optimal endpoint
-    discovery to help end users connect to the most optimal instance of the
-    application which is distributed across various Edge Cloud Zones.
-    Additionally the information can be used to monitor the edge instances to
-    take decisions from a lifecycle management perspective. The API provides
-    the ability to register, read and manage the deployed edge instances of
-    the application.
+    Application providers need to make their services discoverable when
+    deployed across edge infrastructure. This API allows an application
+    developer to register the endpoints (FQDN or IP address, and port) of
+    application instances deployed across different Edge Cloud Zones, update
+    them when necessary, and remove them when they are decommissioned.
+
+    The registered endpoints are not consumed through this API by other
+    parties. Their purpose is to make the application discoverable through
+    the Application Endpoint Discovery API:
+
+    - On successful registration, this API returns an
+    `applicationEndpointListId`.
+    - The application developer's server passes this identifier as
+    `applicationEndpointsId` when calling the Application Endpoint Discovery
+    API, which returns the optimal registered endpoint(s) for a given
+    end-user device.
+    - Registration is needed for applications that are not deployed through
+    the Edge Application Management API, for example applications deployed by
+    the developer directly or on a third-party Edge Cloud platform.
+    Applications deployed through Edge Application Management are discovered
+    by their `appId` instead.
+
+    Additionally, the registered information can be used to monitor the edge
+    instances of the application to take decisions from a lifecycle
+    management perspective.
+
+    Registered endpoints are only accessible to the API client that registered
+    them.
 
     # Relevant terms and definitions
 
@@ -68,44 +88,6 @@ info:
     application endpoints, a `404 NOT_FOUND` error is returned.
     - If the `applicationProfileId` in the request body does not identify an
     existing application profile, a `404 NOT_FOUND` error is returned.
-
-    # Use cases
-
-    Application providers need to make their services discoverable when
-    deployed across edge infrastructure. This API allows an application
-    developer to register the endpoints (FQDN or IP address, and port) of
-    application instances deployed across different Edge Cloud Zones, update
-    them when necessary, and remove them when they are decommissioned.
-
-    The registered endpoints are not consumed through this API by other
-    parties. Their purpose is to make the application discoverable through
-    the Application Endpoint Discovery API:
-
-    - On successful registration, this API returns an
-    `applicationEndpointListId`.
-    - The application developer's server passes this identifier as
-    `applicationEndpointsId` when calling the Application Endpoint Discovery
-    API, which returns the optimal registered endpoint(s) for a given
-    end-user device.
-    - Registration is needed for applications that are not deployed through
-    the Edge Application Management API, for example applications deployed by
-    the developer directly or on a third-party Edge Cloud platform.
-    Applications deployed through Edge Application Management are discovered
-    by their `appId` instead.
-
-    Registered endpoints are only accessible to the API client that registered
-    them.
-
-    Examples of applications that benefit from registering their endpoints:
-
-    - Gaming: multiplayer server endpoints, registered as new instances are
-    started, so that players connect to a nearby server.
-    - Video streaming: media server endpoints, so that clients find the best
-    available streaming source.
-    - IoT platforms: data processing endpoints, so that devices connect to an
-    available nearby service.
-    - AR/VR services: rendering endpoints, to provide low-latency experiences
-    to nearby users.
 
     <!-- CAMARA:MANDATORY:additional-error-responses:BEGIN -->
 
