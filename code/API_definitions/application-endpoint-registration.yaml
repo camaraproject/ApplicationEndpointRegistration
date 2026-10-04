@@ -18,6 +18,15 @@ info:
     application instances deployed across different Edge Cloud Zones, update
     them when necessary, and remove them when they are decommissioned.
 
+    The API registers the Application Endpoints.
+    This information can be used for various use cases like optimal endpoint
+    discovery to help end users connect to the most optimal instance of the
+    application which is distributed across various Edge Cloud Zones.
+    Additionally the information can be used to monitor the edge instances to
+    take decisions from a lifecycle management perspective. The API provides
+    the ability to register, read and manage the deployed edge instances of
+    the application.
+
     The registered endpoints are not consumed through this API by other
     parties. Their purpose is to make the application discoverable through
     the Application Endpoint Discovery API:
@@ -34,9 +43,16 @@ info:
     Applications deployed through Edge Application Management are discovered
     by their `appId` instead.
 
-    Additionally, the registered information can be used to monitor the edge
-    instances of the application to take decisions from a lifecycle
-    management perspective.
+    Application Endpoint Registration could be useful in scenarios such as:
+
+    - Gaming: multiplayer server endpoints, registered as new instances are
+    started, so that players connect to a nearby server.
+    - Video streaming: media server endpoints, so that clients find the best
+    available streaming source.
+    - IoT platforms: data processing endpoints, so that devices connect to an
+    available nearby service.
+    - AR/VR services: rendering endpoints, to provide low-latency experiences
+    to nearby users.
 
     Registered endpoints are only accessible to the API client that registered
     them.
