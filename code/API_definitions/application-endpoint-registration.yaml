@@ -12,6 +12,12 @@ info:
 
     # Introduction
 
+    Application providers need to make their services discoverable when
+    deployed across edge infrastructure. This API allows an application
+    developer to register the endpoints (FQDN or IP address, and port) of
+    application instances deployed across different Edge Cloud Zones, update
+    them when necessary, and remove them when they are decommissioned.
+
     The API registers the Application Endpoints.
     This information can be used for various use cases like optimal endpoint
     discovery to help end users connect to the most optimal instance of the
@@ -20,6 +26,36 @@ info:
     take decisions from a lifecycle management perspective. The API provides
     the ability to register, read and manage the deployed edge instances of
     the application.
+
+    The registered endpoints are not consumed through this API by other
+    parties. Their purpose is to make the application discoverable through
+    the Application Endpoint Discovery API:
+
+    - On successful registration, this API returns an
+    `applicationEndpointListId`.
+    - The application developer's server passes this identifier as
+    `applicationEndpointsId` when calling the Application Endpoint Discovery
+    API, which returns the optimal registered endpoint(s) for a given
+    end-user device.
+    - Registration is needed for applications that are not deployed through
+    the Edge Application Management API, for example applications deployed by
+    the developer directly or on a third-party Edge Cloud platform.
+    Applications deployed through Edge Application Management are discovered
+    by their `appId` instead.
+
+    Application Endpoint Registration could be useful in scenarios such as:
+
+    - Gaming: multiplayer server endpoints, registered as new instances are
+    started, so that players connect to a nearby server.
+    - Video streaming: media server endpoints, so that clients find the best
+    available streaming source.
+    - IoT platforms: data processing endpoints, so that devices connect to an
+    available nearby service.
+    - AR/VR services: rendering endpoints, to provide low-latency experiences
+    to nearby users.
+
+    Registered endpoints are only accessible to the API client that registered
+    them.
 
     # Relevant terms and definitions
 
@@ -48,24 +84,40 @@ info:
                     of a deployed application to a specified edge cloud zone.
     - GET getAllRegisteredApplicationEndpoints: Returns endpoint information for
       all registered Applications.
-    - GET getApplicationEndpointsByID: Returns endpoint information for all
+    - GET getApplicationEndpointsById: Returns endpoint information for all
         Applications registered to a specified applicationEndpointListId.
     - PUT updateApplicationEndpoint: Update registered application endpoint
         information.
     - DELETE deregisterApplicationEndpoint: Deregister an application's
                           Endpoints.
 
+    ## Errors
+
+    - If the request contains a formatting or any other syntactic error, or a
+    request body that does not comply with the schema, a `400 INVALID_ARGUMENT`
+    error is returned.
+    - If the request cannot be authenticated due to missing, invalid, or
+    expired credentials, a `401 UNAUTHENTICATED` error is returned.
+    - If the access token does not have the required scope, a
+    `403 PERMISSION_DENIED` error is returned.
+    - If the `applicationEndpointListId` does not identify registered
+    application endpoints, a `404 NOT_FOUND` error is returned.
+    - If the `applicationProfileId` in the request body does not identify an
+    existing application profile, a `404 NOT_FOUND` error is returned.
+
     <!-- CAMARA:MANDATORY:additional-error-responses:BEGIN -->
+
     # Additional CAMARA error responses
 
     The list of error codes in this API specification is not exhaustive. Therefore the API specification MAY not document some non-mandatory error statuses as indicated in `CAMARA API Design Guide`.
 
-    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated to this API version for a complete list of error responses. The applicable Commonalities Release can be identified in the `API Readiness Checklist` document associated to this API version.
+    Please refer to the `CAMARA_common.yaml` of the Commonalities Release associated to this API version for a complete list of error responses. The applicable Commonalities Release can be identified from the `x-camara-commonalities` field, the changelog and the metadata of the released API version.
 
     As a specific rule, error `501 - NOT_IMPLEMENTED` can be only a possible error response if it is explicitly documented in the API.
     <!-- CAMARA:MANDATORY:additional-error-responses:END -->
 
     <!-- CAMARA:MANDATORY:authorization-and-authentication:BEGIN -->
+
     # Authorization and authentication
 
     The "Camara Security and Interoperability Profile" provides details of how an API consumer requests an access token. Please refer to Identity and Consent Management (https://github.com/camaraproject/IdentityAndConsentManagement/) for the released version of the profile.
@@ -76,27 +128,17 @@ info:
     <!-- CAMARA:MANDATORY:authorization-and-authentication:END -->
 
     <!-- CAMARA:MANDATORY:request-body-strictness:BEGIN -->
+
     # Request body strictness
 
     This API rejects requests with JSON request bodies that contain properties not declared in this specification, at any nesting level. Unknown properties result in a `400 INVALID_ARGUMENT` response.
     <!-- CAMARA:MANDATORY:request-body-strictness:END -->
 
-    # Further info and support
-
-    [GSMA Mobile Connect Account Takeover Protection specification]
-    (https://www.gsma.com/identity/wp-content/uploads/2022/12/IDY.24-Mobile-
-    Connect-Account-Takeover-Protection-Definition-and-Technical-Requirements-
-    v2.0.pdf)
-    was used as source of input for this API. For more about Mobile Connect,
-    please see [Mobile Connect website](https://mobileconnect.io/).
-
-    (FAQs will be added in a later version of the documentation)
-
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
 externalDocs:
-  description: Project documentation at CAMARA
+  description: Product documentation at CAMARA
   url: https://github.com/camaraproject/ApplicationEndpointRegistration
 
 servers:
@@ -146,15 +188,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApplicationEndpointListId"
         "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/BadRequest400"
         "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Unauthenticated401"
         "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/PermissionDenied403"
         "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/NotFound404"
         "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+          $ref: "#/components/responses/EndpointRegistrationTooManyRequests429"
     get:
       security:
         - openId:
@@ -182,13 +224,13 @@ paths:
                 items:
                   $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/BadRequest400"
         "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Unauthenticated401"
         "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/PermissionDenied403"
         "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+          $ref: "#/components/responses/EndpointRegistrationTooManyRequests429"
 
   "/application-endpoint-lists/{applicationEndpointListId}":
     parameters:
@@ -223,15 +265,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/ApplicationEndpointList"
         "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/BadRequest400"
         "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Unauthenticated401"
         "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/PermissionDenied403"
         "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/NotFound404"
         "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+          $ref: "#/components/responses/EndpointRegistrationTooManyRequests429"
 
     put:
       security:
@@ -257,15 +299,15 @@ paths:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
         "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/BadRequest400"
         "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Unauthenticated401"
         "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/PermissionDenied403"
         "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/NotFound404"
         "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+          $ref: "#/components/responses/EndpointRegistrationTooManyRequests429"
 
     delete:
       security:
@@ -285,15 +327,15 @@ paths:
             x-correlator:
               $ref: '#/components/headers/x-correlator'
         "400":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic400"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/BadRequest400"
         "401":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic401"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/Unauthenticated401"
         "403":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic403"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/PermissionDenied403"
         "404":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic404"
+          $ref: "../common/CAMARA_common.yaml#/components/responses/NotFound404"
         "429":
-          $ref: "../common/CAMARA_common.yaml#/components/responses/Generic429"
+          $ref: "#/components/responses/EndpointRegistrationTooManyRequests429"
 
 components:
   securitySchemes:
@@ -383,9 +425,9 @@ components:
         ipv4Address:
           $ref: "../common/CAMARA_common.yaml#/components/schemas/SingleIpv4Address"
         ipv6Address:
-          $ref: "#/components/schemas/SingleIpv6Addr"
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/SingleIpv6Address"
         port:
-          $ref: "#/components/schemas/Port"
+          $ref: "../common/CAMARA_common.yaml#/components/schemas/Port"
         edgeCloudZone:
           $ref: "#/components/schemas/EdgeCloudZone"
         applicationEndpointDescription:
@@ -489,20 +531,28 @@ components:
       minLength: 4
       example: "app.example.com"
 
-    SingleIpv6Addr:
-      description: |
-        Single IPv6 address with no subnet mask
-      type: string
-      format: ipv6
-      maxLength: 45
-      example: 2001:db8:85a3:8d3:1319:8a2e:370:7344
-
-    Port:
-      description: |
-        TCP or UDP port number for the application endpoint.
-        Valid range is 1-65535.
-      type: integer
-      format: int32
-      minimum: 1
-      maximum: 65535
-      example: 8080
+  responses:
+    EndpointRegistrationTooManyRequests429:
+      description: Too Many Requests
+      headers:
+        x-correlator:
+          $ref: "../common/CAMARA_common.yaml#/components/headers/x-correlator"
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../common/CAMARA_common.yaml#/components/schemas/ErrorInfo"
+              - type: object
+                properties:
+                  status:
+                    enum:
+                      - 429
+                  code:
+                    enum:
+                      - QUOTA_EXCEEDED
+                      - TOO_MANY_REQUESTS
+          examples:
+            GENERIC_429_QUOTA_EXCEEDED:
+              $ref: "../common/CAMARA_common.yaml#/components/examples/GENERIC_429_QUOTA_EXCEEDED"
+            GENERIC_429_TOO_MANY_REQUESTS:
+              $ref: "../common/CAMARA_common.yaml#/components/examples/GENERIC_429_TOO_MANY_REQUESTS"
