@@ -61,19 +61,23 @@ Changes documented below are compared to version 0.2.0-rc.1.
 
 ### Added
 
-* N/A
+* Added Errors section to the API description, documenting when each error response is returned by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Added test scenarios covering all operations and documented error codes by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Changed
 
-* N/A
+* Synced with CAMARA Commonalities r4.4 / 0.9.0: error responses aligned with the r4.4 response catalogue, `info.description` mandatory sections updated by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Expanded the Introduction to explain how registered endpoints are used with the Application Endpoint Discovery API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* `port` and `ipv6Address` now reference the common `Port` and `SingleIpv6Address` schemas by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Fixed
 
-* N/A
+* Removed the "Further info and support" section, which referenced the GSMA Mobile Connect Account Takeover Protection specification and did not apply to this API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Corrected `externalDocs` description and the `getApplicationEndpointsById` operation name in the API description by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Removed
 
-* N/A
+* Removed `400 OUT_OF_RANGE`, `403 INVALID_TOKEN_CONTEXT` and `404 IDENTIFIER_NOT_FOUND` error codes, which are not applicable to this API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 **Full Changelog**: https://github.com/camaraproject/ApplicationEndpointRegistration/compare/r2.1...r2.2
 
