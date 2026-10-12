@@ -1,5 +1,5 @@
   @application_endpoint_registration
-Feature: CAMARA Application Endpoint Registration API, vwip - Operations registerApplicationEndpoints, getAllRegisteredApplicationEndpoints, getApplicationEndpointsById, updateApplicationEndpoint, deregisterApplicationEndpoint
+Feature: CAMARA Application Endpoint Registration API, v0.2.0-rc.2 - Operations registerApplicationEndpoints, getAllRegisteredApplicationEndpoints, getApplicationEndpointsById, updateApplicationEndpoint, deregisterApplicationEndpoint
   # Input to be provided by the implementation to the tester
   #
   # Implementation indications:
@@ -13,7 +13,7 @@ Feature: CAMARA Application Endpoint Registration API, vwip - Operations registe
 
   Background: Common Application Endpoint Registration setup
     Given an environment at "apiRoot"
-    And the resource "/application-endpoint-registration/vwip/application-endpoint-lists" as base-url
+    And the resource "/application-endpoint-registration/v0.2rc2/application-endpoint-lists" as base-url
     And the header "Content-Type" is set to "application/json"
     And the header "Authorization" is set to a valid access token
     And the header "x-correlator" complies with the schema at "#/components/schemas/XCorrelator"
