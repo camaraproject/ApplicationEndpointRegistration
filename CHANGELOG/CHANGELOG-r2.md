@@ -79,23 +79,37 @@ Changes documented below are compared to version 0.1.0.
 
 ### Breaking changes
 
-* N/A
+* Request bodies containing properties not declared in the API specification, at any nesting level, are now rejected with `400 INVALID_ARGUMENT` (Commonalities "Request body strictness" rule) by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
+* `applicationEndpoints[].port` now requires a value between 1 and 65535 (previously 0 was accepted), inherited from the Commonalities `Port` schema by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
+* New input limits on the request body of `registerApplicationEndpoints` and `updateApplicationEndpoint`: `applicationEndpoints` accepts at most 20 entries; `applicationDescription` and `applicationEndpointDescription` are limited to 2048 characters and `applicationProviderName` to 256 characters, and these three fields no longer accept line breaks by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
 
 ### Added
 
-* N/A
+* Added an Errors section to the API description, documenting when each error response is returned, including `404 NOT_FOUND` when `applicationProfileId` does not identify an existing application profile by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Added test scenarios covering all five operations and every documented error code by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Changed
 
-* N/A
+* Synced with CAMARA Commonalities r4.4 / 0.9.0 (previously 0.6) and Identity and Consent Management r4.2 (0.5.0) by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+  * Common definitions reused via `$ref` into `CAMARA_common.yaml`; 400, 401, 403 and 404 error responses aligned with the r4.4 response catalogue and shared examples
+  * Added the mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
+  * Request bodies with undeclared properties are rejected with `400 INVALID_ARGUMENT` (see Breaking changes)
+  * Added `maxLength`, `maxItems` and `pattern` constraints to string and array fields (see Breaking changes for the limits that affect request bodies)
+  * `port`, `ipv4Address` and `ipv6Address` now reference the common `Port`, `SingleIpv4Address` and `SingleIpv6Address` schemas; `port` minimum raised from 0 to 1 (see Breaking changes)
+* Expanded the Introduction to explain how registered endpoints are used with the Application Endpoint Discovery API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Test definitions aligned with the API definition and the Commonalities API Testing Guidelines by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/42 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Fixed
 
-* N/A
+* Test definitions referenced response schemas that do not exist in the API definition (`ApplicationEndpointsId`, `ApplicationEndpoints`); corrected to `ApplicationEndpointListId` and `ApplicationEndpointList` by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/42
+* Removed the "Further info and support" section, which referenced the GSMA Mobile Connect Account Takeover Protection specification and did not apply to this API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Corrected `externalDocs` description and the `getApplicationEndpointsById` operation name in the API description by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Removed
 
-* N/A
+* Removed the `422` response (`SERVICE_NOT_APPLICABLE`, `UNIDENTIFIABLE_APPLICATION_PROFILE`) from all operations: the API takes no device identifier, and `applicationProfileId` is a required request property, so an unknown profile is reported as `404 NOT_FOUND` by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49
+* Removed the `404` response from `getAllRegisteredApplicationEndpoints`, which does not look up a specific resource by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49
+* Removed `400 OUT_OF_RANGE` and `403 INVALID_TOKEN_CONTEXT` error codes, which are not applicable to this API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 **Full Changelog**: https://github.com/camaraproject/ApplicationEndpointRegistration/compare/r1.2...r2.3
 
