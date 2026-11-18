@@ -92,7 +92,7 @@ Changes documented below are compared to version 0.1.0.
 * Synced with CAMARA Commonalities r4.4 / 0.9.0 (previously 0.6) and Identity and Consent Management r4.2 (0.5.0) by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
   * Common definitions reused via `$ref` into `CAMARA_common.yaml`; 400, 401, 403 and 404 error responses aligned with the r4.4 response catalogue and shared examples
   * Added the mandatory `info.description` sections (authorization and authentication, additional error responses, request body strictness)
-  * Request bodies with undeclared properties are rejected with `400 INVALID_ARGUMENT` (see Breaking changes)
+  * Request bodies containing properties not declared in the API specification, at any nesting level, are rejected with `400 INVALID_ARGUMENT` (Commonalities "Request body strictness" rule)
   * Added `maxLength`, `maxItems` and `pattern` constraints to string and array fields (see Breaking changes for the limits that affect request bodies)
   * `port`, `ipv4Address` and `ipv6Address` now reference the common `Port`, `SingleIpv4Address` and `SingleIpv6Address` schemas; `port` minimum raised from 0 to 1 (see Breaking changes)
 * Expanded the Introduction to explain how registered endpoints are used with the Application Endpoint Discovery API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
