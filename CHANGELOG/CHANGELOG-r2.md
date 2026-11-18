@@ -79,7 +79,7 @@ Changes documented below are compared to version 0.1.0.
 
 ### Breaking changes
 
-* `applicationEndpoints[].port` now requires a value between 1 and 65535 (previously 0 was accepted), inherited from the Commonalities `Port` schema by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
+* `applicationEndpoints[].port` now requires a value between 1 and 65535 (previously 0 was accepted), inherited from the Commonalities `Port` schema by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 * New input limits on the request body of `registerApplicationEndpoints` and `updateApplicationEndpoint`: `applicationEndpoints` accepts at most 20 entries; `applicationDescription` and `applicationEndpointDescription` are limited to 2048 characters and `applicationProviderName` to 256 characters, and these three fields no longer accept line breaks by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40
 
 ### Added
