@@ -96,6 +96,7 @@ Changes documented below are compared to version 0.1.0.
   * Added `maxLength`, `maxItems` and `pattern` constraints to string and array fields (see Breaking changes for the limits that affect request bodies); `getAllRegisteredApplicationEndpoints` now returns at most 20 endpoint lists
   * `port`, `ipv4Address` and `ipv6Address` now reference the common `Port`, `SingleIpv4Address` and `SingleIpv6Address` schemas; `port` minimum raised from 0 to 1 (see Breaking changes)
 * Expanded the Introduction to explain how registered endpoints are used with the Application Endpoint Discovery API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Expanded the Errors section of the API description to document when each error response is returned, including `400 INVALID_ARGUMENT` for request bodies that do not comply with the schema and `404 NOT_FOUND` when `applicationProfileId` does not identify an existing application profile by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/40 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 * Test definitions aligned with the API definition and the Commonalities API Testing Guidelines by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/42 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Fixed
