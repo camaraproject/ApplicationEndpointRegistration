@@ -106,7 +106,7 @@ Changes documented below are compared to version 0.1.0.
 
 ### Removed
 
-* Removed the `422` response (`SERVICE_NOT_APPLICABLE`, `UNIDENTIFIABLE_APPLICATION_PROFILE`) from all operations: the API takes no device identifier, and `applicationProfileId` is a required request property, so an unknown profile is reported as `404 NOT_FOUND` by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49
+* Removed the `422` response (`SERVICE_NOT_APPLICABLE`, `UNIDENTIFIABLE_APPLICATION_PROFILE`) from all operations: the API takes no device identifier, and `applicationProfileId` is a required request property, so an unknown profile is reported as `404 NOT_FOUND` (see Breaking changes) by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49 and https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 * Removed the `404` response from `getAllRegisteredApplicationEndpoints`, which does not look up a specific resource by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/49
 * Removed `400 OUT_OF_RANGE` and `403 INVALID_TOKEN_CONTEXT` error codes, which are not applicable to this API by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
