@@ -85,7 +85,7 @@ Changes documented below are compared to version 0.1.0.
 ### Added
 
 * Added an Errors section to the API description, documenting when each error response is returned, including `404 NOT_FOUND` when `applicationProfileId` does not identify an existing application profile by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
-* Added test scenarios covering all five operations and every documented error code by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
+* Added test scenarios covering all five operations and the documented 400, 401, 403 and 404 error codes by @maheshc01 in https://github.com/camaraproject/ApplicationEndpointRegistration/pull/55
 
 ### Changed
 
